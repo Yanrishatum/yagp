@@ -1,0 +1,105 @@
+Target: neko
+
+Path: img/transparent.gif
+Notes: Image transparent.
+Version: 89a
+Frame amount: 27
+Parsing test:
+  YAGP: PASS
+  haxe-gif: PASS
+Speed test:
+  YAGP: 0.267366839461095
+  haxe-gif: 0.249726149704828
+  Faster library: haxe-gif
+
+Path: img/zero-frame-duration.gif
+Notes: All frames has zero-length delay. (browsers forces 0.01s and 0s to 0.1s delay. Use yagp_accurate_delay to disable this.)
+Version: 89a
+Frame amount: 19
+Parsing test:
+  YAGP: PASS
+  haxe-gif: PASS
+Speed test:
+  YAGP: 0.0851301288628887
+  haxe-gif: 0.0487813328713633
+  Faster library: haxe-gif
+
+Path: img/restore-previous.gif
+Notes: Image uses restore-previous disposal method. Uses local color tables. Unusual encoder.
+Version: 89a
+Frame amount: 5
+Parsing test:
+  YAGP: PASS
+  haxe-gif: FAIL: InvalidFormat
+Speed test:
+  YAGP: 0.0266824136138908
+  haxe-gif: 0.00335716474993664
+  Faster library: YAGP (haxe-gif parsing error)
+
+Path: img/nontransparent.gif
+Notes: Image not transparent. Contains commentary block. Frames have individual size, not the size of entire GIF. Encoder: Pro Motion
+Version: 89a
+Frame amount: 7
+Parsing test:
+  YAGP: PASS
+  haxe-gif: PASS
+Speed test:
+  YAGP: 0.234185645180634
+  haxe-gif: 0.148395210618196
+  Faster library: haxe-gif
+
+Path: img/nontransparent-iirc.gif
+Notes: Image not transparent. Uses delta-compression IIRC.
+Version: 89a
+Frame amount: 11
+Parsing test:
+  YAGP: PASS
+  haxe-gif: PASS
+Speed test:
+  YAGP: 0.175801228661665
+  haxe-gif: 0.126589464426114
+  Faster library: haxe-gif
+
+Path: img/nontransparent-palettes.gif
+Notes: Image not transparent. Image has big size and large amount of frames. Uses local color tables.
+Version: 89a
+Frame amount: 360
+Parsing test:
+  YAGP: PASS
+  haxe-gif: PASS
+Speed test:
+  YAGP: 1.75057002172146
+  haxe-gif: 1.53500952812463
+  Faster library: haxe-gif
+
+Path: img/framechanges.gif
+Notes: Image has big size. Individual size of the frames. Unusual encoder.
+Version: 89a
+Frame amount: 59
+Parsing test:
+  YAGP: PASS
+  haxe-gif: FAIL: InvalidFormat
+Speed test:
+  YAGP: 3.39243380285444
+  haxe-gif: 0.32770418837702
+  Faster library: YAGP (haxe-gif parsing error)
+
+Path: img/Fighter_attack.gif
+Notes: Image transparent. Encoder: Easy gif animator
+Version: 89a
+Frame amount: 5
+Parsing test:
+  YAGP: PASS
+  haxe-gif: PASS
+Speed test:
+  YAGP: 0.115333617622365
+  haxe-gif: 0.0848506149971335
+  Faster library: haxe-gif
+
+Path: img/framechanges-2.gif
+Notes: Image has VERY big size and extreme amount of frames. Individual size of the frames. Unusual encoder.
+Version: 89a
+Frame amount: 555
+Parsing test:
+  YAGP: FAIL: Too long parsing.
+  haxe-gif: FAIL: InvalidFormat
