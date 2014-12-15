@@ -17,6 +17,7 @@ import com.yagp.GifDecoder;
 import com.yagp.Gif;
 import com.yagp.GifPlayer;
 import com.yagp.GifPlayerWrapper;
+import com.yagp.GifRenderer;
 import openfl.Assets;
 // ...
 
@@ -35,6 +36,10 @@ var player:GifPlayer = new GifPlayer(gif);
 // GifPlayer provides only BitmapData for further displaying and must be updated manually.
 var wrapper:GifPlayerWrapper = new GifPlayerWrapper(player);
 addChild(wrapper);
+
+// Creating spritemap from Gif:
+var spritemap:GifMap = GifRenderer.createMap(gif);
+// This will create a horizontal spritemap from gif. GifMap contains width/height of single frame, delays for every frame and spritemap data.
 ```
 #### Defines
 `yagp_accurate_delay` - Disables browser behaviour, that delay 0 and 1 (0s and 0.01s) are forced to 10 (0.1s).  
