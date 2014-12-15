@@ -1,5 +1,6 @@
 package com.yagp.structs ;
 import openfl.display.BitmapData;
+import openfl.utils.ByteArray;
 import openfl.Vector;
 
 /**
@@ -48,7 +49,7 @@ class GifFrame
     
     this.data = new BitmapData(width, height, true, 0);
     
-    var pixels:Vector<Int> = graphicsDecoder.pixels;
+    var pixels = graphicsDecoder.pixels;
     
     // Graphic Control info
     if (graphicsControl != null)
@@ -98,14 +99,24 @@ class GifFrame
     // Convert interlaced data into normal-linear
     if (imageDescriptor.interlaced)
     {
+      this.data.lock();
       var offset:Int = interlacedFor(pixels, 8, 0, 0     ); // Every 8 line with start at 0
           offset     = interlacedFor(pixels, 8, 4, offset); // Every 8 line with start at 4
           offset     = interlacedFor(pixels, 4, 2, offset); // Every 4 line with start at 2
                        interlacedFor(pixels, 2, 1, offset); // Every 2 line with start at 1
+      this.data.unlock();
     }
     else // Linear copy
     {
+      #if (js && bitfive)
+      var bytes:ByteArray = new ByteArray();
+      bytes.length = pixels.length * 4;
+      for (pixel in pixels) bytes.writeUnsignedInt(pixel);
+      bytes.position = 0;
+      data.setPixels(data.rect, bytes);
+      #else
       data.setVector(data.rect, pixels);
+      #end
     }
     
     // Remove pixels vector

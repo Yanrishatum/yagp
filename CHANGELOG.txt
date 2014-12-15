@@ -1,1 +1,5 @@
 0.0.3: First public release.
+0.0.4: 
+* (Possibly) Fixed compilation error, when not on OpenFL _v2.
+* Small cleanup of code
+* Added basic support for HTML5. Only Bitfive support right now.

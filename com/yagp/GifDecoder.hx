@@ -57,8 +57,19 @@ class GifDecoder
   
   public static inline function parseByteArray(byteArray:ByteArray):Gif
   {
-    #if (flash)
+    #if flash
     return parseBytes(Bytes.ofData(byteArray));
+    #elseif js
+    
+    #if (haxe_ver >= 3.2)
+    return parseBytes(Bytes.ofData(byteArray.byteView)); // In newest 3.2 haxe Uint8Array is BytesData
+    #else
+    var bytes:Bytes = Bytes.alloc(byteArray.length);
+    byteArray.position = 0;
+    for (i in 0...byteArray.length) bytes.set(i, byteArray.readByte());
+    return parseBytes(bytes);
+    #end
+    
     #else
     return parseBytes(byteArray);
     #end
@@ -190,6 +201,7 @@ class GifDecoder
     switch (name)
     {
       // Netscape 2.0 - animation looping
+      // YAGP: Make correct netscape extension reading. Currently it can be both Looping or Buffering.
       case "NETSCAPE": 
         gif.netscape = new NetscapeExtension(_input);
       
@@ -218,7 +230,7 @@ class GifDecoder
     }
     
     // Reading graphics data;
-    var decoder:GraphicsDecoder = new GraphicsDecoder(_input, imageDescriptor, table);
+    var decoder:GraphicsDecoder = new GraphicsDecoder(_input, imageDescriptor);
     
     // Make new GifFrame
     var gifFrame:GifFrame = new GifFrame(table, imageDescriptor, decoder, _graphicControlExtension);

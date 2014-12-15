@@ -1,6 +1,12 @@
 package com.yagp.structs ;
 import openfl.Vector;
 
+#if (flash || display || openfl_next || js)
+typedef PixelType = UInt;
+#else
+typedef PixelType = Int; // Used _v2 OpenFL.
+#end
+
 /**
  * Graphics block decoder. LZW decompression.
  * @author Yanrishatum
@@ -10,11 +16,7 @@ class GraphicsDecoder
   /**
    * Pixels in graphics data
    */
-  #if flash
-  public var pixels:Vector<UInt>;
-  #else
-  public var pixels:Vector<Int>;
-  #end
+  public var pixels:Vector<PixelType>;
   
   // Reading vars
   private var blockSize:Int;
@@ -23,7 +25,7 @@ class GraphicsDecoder
   
   private var _input:GifBytes;
   
-  public function new(input:GifBytes, descriptor:ImageDescriptor, table:Array<Int>) 
+  public function new(input:GifBytes, descriptor:ImageDescriptor) 
   {
     var minCodeSize:Int = input.readByte();
     
@@ -33,13 +35,7 @@ class GraphicsDecoder
     
     _input = input;
     
-    #if flash
-    pixels = new Vector<UInt>();
-    #elseif neko
-    var subPixels:Array<Int> = new Array();
-    #else
-    pixels = new Vector<Int>();
-    #end
+    pixels = new Vector<PixelType>(descriptor.width * descriptor.height, true);
     
     var clearCode:Int = 1 << minCodeSize;
     var eoiCode:Int = clearCode + 1;
@@ -47,13 +43,14 @@ class GraphicsDecoder
     var codeSize:Int = minCodeSize + 1;
     var codeMask:Int = (1 << codeSize) - 1;
     
+    var i:Int = 0; // Pixel write caret.
     
-    var baseDict:Array<Array<Int>> = new Array<Array<Int>>();
+    var baseDict:Array<Array<PixelType>> = new Array<Array<PixelType>>();
     for (i in 0...clearCode) baseDict[i] = [i];
     baseDict[clearCode] = [];
     baseDict[eoiCode] = [];
     
-    var dict:Array<Array<Int>> = new Array<Array<Int>>();
+    var dict:Array<Array<PixelType>> = new Array<Array<PixelType>>();
     
     var code:Int = 0;
     var last:Int = 0;
@@ -75,7 +72,7 @@ class GraphicsDecoder
       {
         if (last != clearCode)
         {
-          var newArr:Array<Int> = dict[last].copy();
+          var newArr:Array<PixelType> = dict[last].copy();
           newArr.push(dict[code][0]);
           dict.push(newArr);
           
@@ -84,16 +81,12 @@ class GraphicsDecoder
       else
       {
         if (code != dict.length) throw 'Invalid LZW code.';
-        var newArr:Array<Int> = dict[last].copy();
+        var newArr:Array<PixelType> = dict[last].copy();
         newArr.push(dict[last][0]);
         dict.push(newArr);
       }
       
-      #if neko
-      for (item in dict[code]) subPixels.push(item);
-      #else
-      for (item in dict[code]) pixels.push(item);
-      #end
+      for (item in dict[code]) pixels[i++] = item;
       
       if (dict.length == (1 << codeSize) && codeSize < 12)
       {
@@ -101,10 +94,7 @@ class GraphicsDecoder
         codeMask = (1 << codeSize) - 1;
       }
     }
-    // Used non-direct push to pixels vector because NekoVM on new version of Haxe produces tons of lags when I push pixels to vector. Don't know why 
-    #if neko
-    pixels = Vector.ofArray(subPixels);
-    #end
+    
     while (blockSize > 0)
     {
       input.position += blockSize;
