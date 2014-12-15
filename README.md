@@ -9,8 +9,8 @@ __Html5 target supported only with OpenFL-Bitfive!__
 
 ### Quick start
 #### Installation
-The library currently only available on github, no lib.haxe release yet.  
-`haxelib git yagp https://github.com/Yanrishatum/yagp.git`
+`haxelib install yagp` - Haxelib release.  
+`haxelib git yagp https://github.com/Yanrishatum/yagp.git` - GitHub version.
 #### Using the library.
 ```haxe
 import com.yagp.GifDecoder;
