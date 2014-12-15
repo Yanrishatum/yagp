@@ -1,7 +1,7 @@
 package;
 import com.yagp.structs.GifVersion;
 import com.yagp.structs.LSD;
-import experimental.GifEncoder;
+import experimental.GifWriter;
 import openfl.display.Sprite;
 #if sys
 import sys.FileSystem;
@@ -23,7 +23,7 @@ class EncoderTest extends Sprite
   
   private function emptyWithCommentary():Void
   {
-    var enc:GifEncoder = new GifEncoder();
+    var enc:GifWriter = new GifWriter();
     enc.header(GifVersion.Unknown("14a"));
     var lsd:LSD = Type.createEmptyInstance(LSD);
     lsd.width = 2;

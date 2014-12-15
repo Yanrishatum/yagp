@@ -84,6 +84,17 @@ class StructureChecker
   {
     #if (flash)
     _input = new GifBytes(Bytes.ofData(input));
+    #elseif js
+    
+    #if (haxe_ver >= 3.2)
+    _input = new GifBytes(Bytes.ofData(byteArray.byteView)); // In newest 3.2 haxe Uint8Array is BytesData
+    #else
+    var bytes:Bytes = Bytes.alloc(input.length);
+    input.position = 0;
+    for (i in 0...input.length) bytes.set(i, input.readByte());
+    _input = new GifBytes(bytes);
+    #end
+    
     #else
     _input = new GifBytes(input);
     #end

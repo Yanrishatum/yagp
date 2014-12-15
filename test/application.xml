@@ -8,7 +8,7 @@
 	<!-- output -->
 	<app main="Main" file="YAGP" path="bin" />
 	
-  <!--<set name="html5-backend" value="openfl-bitfive" />-->
+  <set name="html5-backend" value="openfl-bitfive" />
   
 	<window background="#EEEEEE" fps="60" />
 	<window width="800" height="480" unless="mobile" />
@@ -20,6 +20,7 @@
 	<haxelib name="openfl" />
 	<haxelib name="actuate" />
   <haxelib name="haxe-gif"/>
+  <haxelib name="hxColorToolkit"/>
   
 	<!-- assets -->
 	<icon path="assets/openfl.svg" />

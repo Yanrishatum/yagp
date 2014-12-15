@@ -4,7 +4,7 @@ import com.yagp.GifDecoder;
 import com.yagp.GifPlayer;
 import com.yagp.GifPlayerWrapper;
 import com.yagp.structs.GifVersion;
-import experimental.GifEncoder;
+import experimental.GifWriter;
 import gif.AnimatedGif;
 import haxe.io.Bytes;
 import haxe.Timer;
@@ -56,9 +56,6 @@ class Main extends Sprite
 	public function new() 
 	{
 		super();
-    
-    var encoder:GifEncoder = new GifEncoder();
-    encoder.header(GifVersion.Unknown("14a"));
     
     #if flash
     trace("Target: flash");
@@ -113,6 +110,16 @@ class Main extends Sprite
     if (yagp != null) addChild(yagp);
     #if (flash)
     var hbytes:Bytes = Bytes.ofData(bytes);
+    #elseif js
+    
+    #if (haxe_ver >= 3.2)
+    var hbytes:Bytes = Bytes.ofData(bytes.byteView); // In newest 3.2 haxe Uint8Array is BytesData
+    #else
+    var hbytes:Bytes = Bytes.alloc(bytes.length);
+    bytes.position = 0;
+    for (i in 0...bytes.length) hbytes.set(i, bytes.readByte());
+    #end
+    
     #else
     var hbytes:Bytes = bytes;
     #end
