@@ -1,5 +1,6 @@
 package com.yagp.structs ;
 import openfl.display.BitmapData;
+import openfl.geom.Point;
 import openfl.utils.ByteArray;
 import openfl.Vector;
 
@@ -9,6 +10,9 @@ import openfl.Vector;
  */
 class GifFrame
 {
+  static private var ZERO_POINT:Point = new Point();
+  static private var ZEROED_ARRAY:Array<Int> = [for (i in 0...256) 0];
+  
   /** X coordinate of frame on logical screen */
   public var x:Int;
   /** Y coordinate of frame on logical screen */
@@ -65,19 +69,20 @@ class GifFrame
       if (graphicsControl.transparentColor)
       {
         transparentIndex = graphicsControl.transparentIndex;
-        for (i in 0...pixels.length)
+		
+        /*for (i in 0...pixels.length)
         {
           if (pixels[i] == graphicsControl.transparentIndex) pixels[i] = 0;
           else pixels[i] = colorTable[pixels[i]];
-        }
+        }*/
       }
       else
       {
         transparentIndex = -1;
-        for (i in 0...pixels.length)
+        /*for (i in 0...pixels.length)
         {
           pixels[i] = colorTable[pixels[i]];
-        }
+        }*/
       }
     }
     else
@@ -90,10 +95,10 @@ class GifFrame
       #end
       userInput = false;
       disposalMethod = DisposalMethod.UNSPECIFIED;
-      for (i in 0...pixels.length)
+      /*for (i in 0...pixels.length)
       {
         pixels[i] = colorTable[pixels[i]];
-      }
+      }*/
     }
     
     // Convert interlaced data into normal-linear
@@ -115,7 +120,11 @@ class GifFrame
       bytes.position = 0;
       data.setPixels(data.rect, bytes);
       #else
-      data.setVector(data.rect, pixels);
+	  for (i in colorTable.length...256) colorTable[i] = 0;	// extend colorTable to 256 elements
+	  if (transparentIndex >= 0) colorTable[transparentIndex] = 0;  // set transparentIndex to 0 alpha
+	  data.setVector(data.rect, pixels);
+	  data.paletteMap(data, data.rect, ZERO_POINT, ZEROED_ARRAY, ZEROED_ARRAY, colorTable, ZEROED_ARRAY);
+      //data.setVector(data.rect, pixels);
       #end
     }
     

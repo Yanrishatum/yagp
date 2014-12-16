@@ -86,7 +86,7 @@ class GraphicsDecoder
         dict.push(newArr);
       }
       
-      for (item in dict[code]) pixels[i++] = item;
+      for (item in dict[code]) pixels[i++] = 0xFF000000 | item;
       
       if (dict.length == (1 << codeSize) && codeSize < 12)
       {
