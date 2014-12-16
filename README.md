@@ -5,12 +5,12 @@ Yet Another Gif Parser
 
 This library provides simple API to parse animated GIF images. In difference between haxe-gif library, this library successfully parses most of the Gif images (exclude too big images). You can check detailed comparasion results in `test/test-<platform>.txt` files.
 
-__The html5 target currently not supported!__
+__Html5 target supported only with OpenFL-Bitfive!__
 
 ### Quick start
 #### Installation
-The library currently only available on github, no lib.haxe release yet.  
-`haxelib git yagp https://github.com/Yanrishatum/yagp.git`
+`haxelib install yagp` - Haxelib release.  
+`haxelib git yagp https://github.com/Yanrishatum/yagp.git` - GitHub version.
 #### Using the library.
 ```haxe
 import com.yagp.GifDecoder;
@@ -47,15 +47,20 @@ var spritemap:GifMap = GifRenderer.createMap(gif);
 `yagp_accurate_fill_background` - (GifPlayer implementation) Disables browser behaviour, where disposal method "Fill background color" will fill transparency, instead of background color, when disposing frame transparentColorIndex not equals to backgroundColorIndex.  
 `yagp_faststone` - (GifPlayer implementation) When switching frames, `t` will be set to 0, instead of substracting `elapsed`. This will produce incorrect frame-delays, and will emulate FastStone Image Viewer behaviour.
 #### Tested platforms
-Flash, Neko, Windows.
+* Flash: Full support.
+* Neko: Full support.
+* Windows: Full support.
+* HTML5: Only with OpenFL-Bitfive. Produces `?` output by OpenFL-Bitfive.
+* Android: Not tested for speed and produces an warning messages, but works as reported in [#2](http://github.com/Yanrishatum/yagp/issues/2).
+
 #### Possible future updates
-* Asynchronous parsing.
-* HTML5 target support.
-* Custom Extension/Application Extension support.
-* Plain Text Extension support.
-* Macro pre-compile parsing and embedding.
-* Independence from OpenFL.
-* On-Demand parsing (e.g. not parse entire file once, but parse next frames when it's required)
+- [ ] Asynchronous parsing.
+- [x] HTML5 target support.
+- [ ] Custom Extension/Application Extension support.
+- [ ] Plain Text Extension support.
+- [ ] Macro pre-compile parsing and embedding.
+- [ ] Independence from OpenFL.
+- [ ] On-Demand parsing (e.g. not parse entire file once, but parse next frames when it's required)
 
 ## Licension
 This work is licensed under MIT license.
