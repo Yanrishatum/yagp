@@ -3,8 +3,10 @@ import com.yagp.structs.IExtension;
 
 /**
  * Factory for custom extensions.
+ * CURRENTLY NOT USED
  * @author Yanrishatum
  */
+@:dox(hide)
 class ExtensionFactory<T:IExtension>
 {
 

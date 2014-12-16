@@ -1,4 +1,4 @@
-Target: js/HTML5 + Bitfive
+Target: js/html5 + Bitfive
 
 Path: img/transparent.gif
 Notes: Image transparent.
@@ -8,8 +8,8 @@ Parsing test:
   YAGP: PASS
   haxe-gif: PASS
 Speed test:
-  YAGP: 0.10199999809265137
-  haxe-gif: 0.14299988746643066
+  YAGP: 0.1269998550415039
+  haxe-gif: 0.16199994087219238
   Faster library: YAGP
 
 Path: img/zero-frame-duration.gif
@@ -20,9 +20,9 @@ Parsing test:
   YAGP: PASS
   haxe-gif: PASS
 Speed test:
-  YAGP: 0.04900002479553223
-  haxe-gif: 0.03299999237060547
-  Faster library: haxe-gif
+  YAGP: 0.031999826431274414
+  haxe-gif: 0.03500008583068848
+  Faster library: YAGP
 
 Path: img/restore-previous.gif
 Notes: Image uses restore-previous disposal method. Uses local color tables. Unusual encoder.
@@ -32,8 +32,8 @@ Parsing test:
   YAGP: PASS
   haxe-gif: FAIL: InvalidFormat
 Speed test:
-  YAGP: 0.012000083923339844
-  haxe-gif: 0.0010001659393310547
+  YAGP: 0.009999990463256836
+  haxe-gif: 0.0009999275207519531
   Faster library: YAGP (haxe-gif parsing error)
 
 Path: img/nontransparent.gif
@@ -44,7 +44,7 @@ Parsing test:
   YAGP: PASS
   haxe-gif: PASS
 Speed test:
-  YAGP: 0.046000003814697266
+  YAGP: 0.03900003433227539
   haxe-gif: 0.09100008010864258
   Faster library: YAGP
 
@@ -56,8 +56,8 @@ Parsing test:
   YAGP: PASS
   haxe-gif: PASS
 Speed test:
-  YAGP: 0.05500006675720215
-  haxe-gif: 0.06099987030029297
+  YAGP: 0.05200004577636719
+  haxe-gif: 0.06299996376037598
   Faster library: YAGP
 
 Path: img/nontransparent-palettes.gif
@@ -68,8 +68,8 @@ Parsing test:
   YAGP: PASS
   haxe-gif: PASS
 Speed test:
-  YAGP: 0.5439999103546143
-  haxe-gif: 0.7740001678466797
+  YAGP: 0.43900012969970703
+  haxe-gif: 0.8220000267028809
   Faster library: YAGP
 
 Path: img/framechanges.gif
@@ -80,8 +80,8 @@ Parsing test:
   YAGP: PASS
   haxe-gif: FAIL: InvalidFormat
 Speed test:
-  YAGP: 0.8190000057220459
-  haxe-gif: 0.08599996566772461
+  YAGP: 0.7939999103546143
+  haxe-gif: 0.05900001525878906
   Faster library: YAGP (haxe-gif parsing error)
 
 Path: img/Fighter_attack.gif
@@ -92,6 +92,30 @@ Parsing test:
   YAGP: PASS
   haxe-gif: PASS
 Speed test:
-  YAGP: 0.04699993133544922
-  haxe-gif: 0.05099987983703613
+  YAGP: 0.024000167846679688
+  haxe-gif: 0.039999961853027344
   Faster library: YAGP
+  
+Path: img/optimized.gif
+Notes: Encoder: ImageOptim 1.3.3. Not animated
+Version: 87a
+Frame amount: 1
+Parsing test:
+  YAGP: PASS
+  haxe-gif: FAIL: UnsupportedFormat
+Speed test:
+  YAGP: 0.07500004768371582
+  haxe-gif: 0
+  Faster library: YAGP (haxe-gif parsing error)
+
+Path: img/framechanges-2.gif
+Notes: Image has VERY big size and extreme amount of frames. Individual size of the frames. Unusual encoder.
+Version: 89a
+Frame amount: 555
+Parsing test:
+  YAGP: PASS
+  haxe-gif: FAIL: InvalidFormat
+Speed test:
+  YAGP: 1.937999963760376
+  haxe-gif: 0.18499994277954102
+  Faster library: YAGP (haxe-gif parsing error)

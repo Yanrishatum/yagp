@@ -1,6 +1,4 @@
-
-F:\_work\Haxe\YAGP\test\bin\windows\cpp\bin>YAGP.exe  1>run.txt
-Main.hx:70: Target: windows
+Target: windows
 
 Path: img/transparent.gif
 Notes: Image transparent.
@@ -10,47 +8,44 @@ Parsing test:
   YAGP: PASS
   haxe-gif: PASS
 Speed test:
-  YAGP: 0.06780226809
-  haxe-gif: 0.2372966112
+  YAGP: 0.07090388714
+  haxe-gif: 0.2590492156
   Faster library: YAGP
 
 Path: img/zero-frame-duration.gif
-Notes: All frames has zero-length delay. (browsers forces 0.01s and 0s to 0.1s d
-elay. Use yagp_accurate_delay to disable this.)
+Notes: All frames has zero-length delay. (browsers forces 0.01s and 0s to 0.1s delay. Use yagp_accurate_delay to disable this.)
 Version: 89a
 Frame amount: 19
 Parsing test:
   YAGP: PASS
   haxe-gif: PASS
 Speed test:
-  YAGP: 0.02432003838
-  haxe-gif: 0.06058454711
+  YAGP: 0.01960376044
+  haxe-gif: 0.0590478164
   Faster library: YAGP
 
 Path: img/restore-previous.gif
-Notes: Image uses restore-previous disposal method. Uses local color tables. Unu
-sual encoder.
+Notes: Image uses restore-previous disposal method. Uses local color tables. Unusual encoder.
 Version: 89a
 Frame amount: 5
 Parsing test:
   YAGP: PASS
   haxe-gif: FAIL: InvalidFormat
 Speed test:
-  YAGP: 0.004646126784
-  haxe-gif: 0.002130835143
+  YAGP: 0.003133923161
+  haxe-gif: 0.001048083583
   Faster library: YAGP (haxe-gif parsing error)
 
 Path: img/nontransparent.gif
-Notes: Image not transparent. Contains commentary block. Frames have individual
-size, not the size of entire GIF. Encoder: Pro Motion
+Notes: Image not transparent. Contains commentary block. Frames have individual size, not the size of entire GIF. Encoder: Pro Motion
 Version: 89a
 Frame amount: 7
 Parsing test:
   YAGP: PASS
   haxe-gif: PASS
 Speed test:
-  YAGP: 0.05186164897
-  haxe-gif: 0.1630275449
+  YAGP: 0.02624873029
+  haxe-gif: 0.1455137125
   Faster library: YAGP
 
 Path: img/nontransparent-iirc.gif
@@ -61,21 +56,20 @@ Parsing test:
   YAGP: PASS
   haxe-gif: PASS
 Speed test:
-  YAGP: 0.06557581855
-  haxe-gif: 0.1292929865
+  YAGP: 0.05460262274
+  haxe-gif: 0.1220804159
   Faster library: YAGP
 
 Path: img/nontransparent-palettes.gif
-Notes: Image not transparent. Image has big size and large amount of frames. Use
-s local color tables.
+Notes: Image not transparent. Image has big size and large amount of frames. Uses local color tables.
 Version: 89a
 Frame amount: 360
 Parsing test:
   YAGP: PASS
   haxe-gif: PASS
 Speed test:
-  YAGP: 0.4796957663
-  haxe-gif: 1.600228875
+  YAGP: 0.4814584819
+  haxe-gif: 1.713527041
   Faster library: YAGP
 
 Path: img/framechanges.gif
@@ -86,8 +80,8 @@ Parsing test:
   YAGP: PASS
   haxe-gif: FAIL: InvalidFormat
 Speed test:
-  YAGP: 0.76899395
-  haxe-gif: 0.1074532589
+  YAGP: 0.7780631375
+  haxe-gif: 0.1152049077
   Faster library: YAGP (haxe-gif parsing error)
 
 Path: img/Fighter_attack.gif
@@ -98,6 +92,30 @@ Parsing test:
   YAGP: PASS
   haxe-gif: PASS
 Speed test:
-  YAGP: 0.04755167175
-  haxe-gif: 0.09044688903
+  YAGP: 0.02455000868
+  haxe-gif: 0.07679894086
   Faster library: YAGP
+
+Path: img/optimized.gif
+Notes: Encoder: ImageOptim 1.3.3. Not animated
+Version: 87a
+Frame amount: 1
+Parsing test:
+  YAGP: PASS
+  haxe-gif: FAIL: UnsupportedFormat
+Speed test:
+  YAGP: 0.04502028705
+  haxe-gif: 7.662403816e-005
+  Faster library: YAGP (haxe-gif parsing error)
+
+Path: img/framechanges-2.gif
+Notes: Image has VERY big size and extreme amount of frames. Individual size of the frames. Unusual encoder.
+Version: 89a
+Frame amount: 555
+Parsing test:
+  YAGP: PASS
+  haxe-gif: FAIL: InvalidFormat
+Speed test:
+  YAGP: 1.838906288
+  haxe-gif: 0.2341883799
+  Faster library: YAGP (haxe-gif parsing error)

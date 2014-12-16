@@ -3,3 +3,9 @@
 * (Possibly) Fixed compilation error, when not on OpenFL _v2.
 * Small cleanup of code
 * Added basic support for HTML5. Only Bitfive support right now.
+1.1.4:
+* Changing versioning system to SemVer.
+* Added documentation.
+* Added basic asynchronous parsing for neko and cpp tarets (via Threads).
+* Fixed dumb error in LZW decoding, which resulted in infinite loop.
+* Fixed error in Wrapper. (Assumption that DisplayObject receives EnterFrame event even if it's not in display list is wrong on OpenFL)

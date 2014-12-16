@@ -1,41 +1,27 @@
 NOTE: haxe-gif library on Flash target didn't worked for me at all. It's just stucks at second frame.
 
-Path: img/transparent.gif
-Notes: Image transparent.
-YAGP: Visually work as expected.
+YAGP: All work as expected.
+
+Haxe-gif library failed every single image:
+Images:
+  img/transparent.gif
+  img/zero-frame-duration.gif
+  img/nontransparent-iirc.gif
+  img/nontransparent-palettes.gif
+  img/Fighter_attack.gif
+  img/nontransparent.gif
 haxe-gif: Incorrect frame-delay.
 
-Path: img/zero-frame-duration.gif
-Notes: All frames has zero-length delay. (browsers forces 0.01s and 0s to 0.1s delay. Use yagp_accurate_delay to disable this.)
-YAGP: Visually work as expected. 
-haxe-gif: Incorrect frame-delay.
-
-Path: img/restore-previous.gif
-Notes: Image uses restore-previous disposal method. Uses local color tables. Unusual encoder.
-YAGP: Visually work as expected.
+Images:
+  img/restore-previous.gif
+  img/framechanges.gif
+  img/framechanges-2.gif
 haxe-gif: Not parsed.
 
-Path: img/nontransparent.gif
-Notes: Image not transparent. Contains commentary block. Frames have individual size, not the size of entire GIF. Encoder: Pro Motion
-YAGP: Visually work as expected.
+Images:
+  img/nontransparent.gif
 haxe-gif: Renders individual frames instead of entire image. (+incorrect frame-delay)
 
-Path: img/nontransparent-iirc.gif
-Notes: Image not transparent. Uses delta-compression IIRC.
-YAGP: Visually work as expected.
-haxe-gif: Incorrect frame-delay.
-
-Path: img/nontransparent-palettes.gif
-Notes: Image not transparent. Image has big size and large amount of frames. Uses local color tables.
-YAGP: Visually work as expected.
-haxe-gif: Incorrect frame-delay.
-
-Path: img/framechanges.gif
-Notes: Image has big size. Individual size of the frames. Unusual encoder.
-YAGP: Visually work as expected.
-haxe-gif: Not parsed.
-
-Path: img/Fighter_attack.gif
-Notes: Image transparent. Encoder: Easy gif animator
-YAGP: Visually work as expected.
-haxe-gif: Incorrect frame-delay.
+Images:
+  img/optimized.gif
+haxe-gif: Not parsed (not supports Gif87a format).

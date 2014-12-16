@@ -4,7 +4,6 @@ import haxe.io.Bytes;
 /**
  * Logical Screen Descriptor
  * Represents basic information about GIF image.
- * @author Yanrishatum
  */
 class LSD
 {

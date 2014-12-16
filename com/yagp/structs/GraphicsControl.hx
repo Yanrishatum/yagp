@@ -2,7 +2,6 @@ package com.yagp.structs ;
 
 /**
  * Optional Graphics Control block, used for setting up disposal method, transparency, delay and user input.
- * @author Yanrishatum
  */
 class GraphicsControl
 {
@@ -35,7 +34,7 @@ class GraphicsControl
   
   /**
    * Constructor
-   * @param bytes Input gif file stream
+   * @param input Input gif file stream
    */
   public function new(input:GifBytes) 
   {

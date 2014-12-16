@@ -4,8 +4,8 @@
   "license": "MIT",
   "tags": ["cross", "gif", "decoding", "animated", "multimedia"],
   "description": "Yet another implementation of gif parsing. It provides you information about GIF file, so you can make a custom player, or use shipped simple implementation.",
-  "version": "0.0.3",
-  "releasenote": "Initial release.",
+  "version": "1.1.4",
+  "releasenote": "Async parsing, documentation, bugfixes. See CHANGELOG.txt",
   "contributors": ["Yanrishatum"],
   "dependencies":
   {

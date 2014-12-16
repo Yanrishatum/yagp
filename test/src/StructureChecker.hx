@@ -66,6 +66,7 @@ typedef GraphicsControlBlock =
  * ...
  * @author Yanrishatum
  */
+@:dox(hide)
 class StructureChecker
 {
 

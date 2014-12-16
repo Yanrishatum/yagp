@@ -34,7 +34,7 @@ typedef TestImage =
  * ...
  * @author Yanrishatum
  */
-
+@:dox(hide)
 class Main extends Sprite 
 {
   
@@ -48,6 +48,7 @@ class Main extends Sprite
     { path: "img/nontransparent-palettes.gif", conditions: "Image not transparent. Image has big size and large amount of frames. Uses local color tables." },
     { path: "img/framechanges.gif", conditions: "Image has big size. Individual size of the frames. Unusual encoder." },
     { path: "img/Fighter_attack.gif", conditions: "Image transparent. Encoder: Easy gif animator" },
+    { path: "img/optimized.gif", conditions:"Encoder: ImageOptim 1.3.3. Not animated" },
     { path: "img/framechanges-2.gif", conditions: "Image has VERY big size and extreme amount of frames. Individual size of the frames. Unusual encoder." },
   ];
   private var caret:Int;
@@ -60,11 +61,19 @@ class Main extends Sprite
     #if flash
     trace("Target: flash");
     #elseif js
-    trace("Target: js");
+      #if bitfive
+      trace("Target: js/html5 + Bitfive");
+      #else
+      trace("Target: js/html5 (OpenFL render)");
+      #end
     #elseif neko
     trace("Target: neko");
     #elseif windows
     trace("Target: windows");
+    #elseif android
+    trace("Target: android");
+    #elseif ios
+    trace("Target: IOS");
     #else
     trace("Target: Other");
     #end
@@ -80,10 +89,14 @@ class Main extends Sprite
     compareNext();
   }
   
+  private var yagp:GifPlayerWrapper;
+  
+  @:access(lime.graphics.Image)
+  @:access(openfl.display.BitmapData)
   private function compareNext():Void
   {
     caret++;
-    if (caret == testImages.length) return;
+    if (caret == testImages.length) caret = 0;
     while (numChildren > 0) removeChildAt(0);
     var i:TestImage = testImages[caret];
     var bytes:ByteArray = Assets.getBytes(i.path);
@@ -96,10 +109,17 @@ class Main extends Sprite
       case GifVersion.Unknown(v): i.version = v;
     }
     var t:Float = Timer.stamp();
-    var yagp:GifPlayerWrapper = null;
+    if (yagp != null)
+    {
+      yagp.dispose(true, true);
+      yagp = null;
+    }
     try
     {
       yagp = new GifPlayerWrapper(new GifPlayer(GifDecoder.parseByteArray(bytes)));
+      #if js
+      //trace(yagp.player.data.__image.get_premultiplied());
+      #end
       i.yagp = "PASS";
     }
     catch (e:Dynamic)

@@ -15,6 +15,7 @@ typedef GifFrameInfo =
  * ...
  * @author Yanrishatum
  */
+@:dox(hide)
 class GifEncoder
 {
   

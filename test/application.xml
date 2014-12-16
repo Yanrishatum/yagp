@@ -26,6 +26,8 @@
 	<icon path="assets/openfl.svg" />
 	<assets path="assets/img" rename="img" type="binary" />
 	
+  <haxeflag name="--macro include('com.yagp')"/>
+  
 	<!-- optimize output
 	<haxeflag name="-dce full" /> -->
 	

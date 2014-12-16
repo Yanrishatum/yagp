@@ -1,0 +1,1 @@
+openfl build flash -xml

@@ -49,8 +49,8 @@ typedef GifMap =
 
 /**
  * Fast and dirty implementation of rendering entire Gif file to spritesheet.
+ * 
  * Current status: Has some bugs, not optimized.
- * @author Yanrishatum
  */
 class GifRenderer
 {
@@ -63,7 +63,7 @@ class GifRenderer
   /**
    * Creates spritesheet from given Gif file.
    * @param gif Gif file.
-   * @param vertical Place frames vertically?
+   * @param vertical Place frames vertically?  
    * Default: false
    * @return GifMap structure.
    */

@@ -10,6 +10,7 @@ import openfl.utils.Endian;
  * ...
  * @author Yanrishatum
  */
+@:dox(hide)
 class GifWriter
 {
   

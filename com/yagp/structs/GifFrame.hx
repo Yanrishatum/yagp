@@ -5,7 +5,6 @@ import openfl.Vector;
 
 /**
  * Single frame of gif file.
- * @author Yanrishatum
  */
 class GifFrame
 {
@@ -22,21 +21,23 @@ class GifFrame
   /** Output BitmapData of frame */
   public var data:BitmapData;
   
-  /** Delay, before start next frame. */
+  /** 
+   * Delay, before start rendering next frame in milliseconds.
+   * 
+   * Note: Most browsers forces 0 and 1 (0/10 milliseconds) delay to 10 (100ms). To disable this behaviour add a `yagp_accurate_delay` define.
+   */
   public var delay:Int;
   /** Is this frame must wait input from user, before render next frame? */
   public var userInput:Bool;
-  
+  /** Index of transparent color in this frame. If frame has no transparency, value is -1 */
   public var transparentIndex:Int;
   
   /**
-   * Loads data from GifDecoder and renders frame
-   * @param globalColorTable Global table of colors
-   * @param colorTable Local table of colors
-   * @param imageDescriptor Image Descriptor of frame
-   * @param graphicsDecoder Graphics Decoder of frame
-   * @param graphicsControl Additional Graphics Control extension
-   * @param previousGifFrame Link to previous frame
+   * Constructs gif frame from separate data inputs.
+   * @param colorTable Color table, used for this frame.
+   * @param imageDescriptor The Image Descriptor information.
+   * @param graphicsDecoder Output from LZW compressed data.
+   * @param graphicsControl Optional Graphic Control Extension block.
    */
   public function new(colorTable:Array<Int>, 
                       imageDescriptor:ImageDescriptor, graphicsDecoder:GraphicsDecoder, 
@@ -54,12 +55,11 @@ class GifFrame
     // Graphic Control info
     if (graphicsControl != null)
     {
-      #if yagp_accurate_delay
-      delay = graphicsControl.delay * 10;
-      #else
-      delay = graphicsControl.delay * 10; // *10 Because in gif delay counts as 1/100 per second
+      delay = graphicsControl.delay * 10; // Converting to milliseconds.
+      #if !yagp_accurate_delay
       if (delay <= 10) delay = 100; // Imitating browsers method, that sets minimum time to 0.02s, and replace 0.01s/0s to 0.1s
       #end
+      
       userInput = graphicsControl.userInput;
       disposalMethod = graphicsControl.disposalMethod;
       if (graphicsControl.transparentColor)
@@ -74,26 +74,21 @@ class GifFrame
       else
       {
         transparentIndex = -1;
-        for (i in 0...pixels.length)
-        {
-          pixels[i] = colorTable[pixels[i]];
-        }
+        for (i in 0...pixels.length) pixels[i] = colorTable[pixels[i]];
       }
     }
     else
     {
       transparentIndex = -1;
       #if yagp_accurate_delay
-      delay = 0;
+      delay = 10; // Display frame only 10 milliseconds.
       #else
       delay = 100;
       #end
       userInput = false;
       disposalMethod = DisposalMethod.UNSPECIFIED;
-      for (i in 0...pixels.length)
-      {
-        pixels[i] = colorTable[pixels[i]];
-      }
+      
+      for (i in 0...pixels.length) pixels[i] = colorTable[pixels[i]];
     }
     
     // Convert interlaced data into normal-linear
@@ -109,6 +104,7 @@ class GifFrame
     else // Linear copy
     {
       #if (js && bitfive)
+      // Since OpenFL-bitfive not supports `BitmapData.setVector()`, we're converting vector to ByteArray. Kinda slow, but adding more #ifs just for bitfive will make a mess in the code.
       var bytes:ByteArray = new ByteArray();
       bytes.length = pixels.length * 4;
       for (pixel in pixels) bytes.writeUnsignedInt(pixel);
@@ -120,6 +116,7 @@ class GifFrame
     }
     
     // Remove pixels vector
+    // Not sure it's required, since all references to graphicsDecored will be removed after frame construction.
     graphicsDecoder.pixels = null;
   }
   
@@ -138,6 +135,9 @@ class GifFrame
     return offset;
   }
   
+  /**
+   * Disposes GifFrame.
+   */
   public function dispose():Void
   {
     this.data.dispose();

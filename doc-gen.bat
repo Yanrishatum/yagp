@@ -1,0 +1,1 @@
+haxelib run dox -i test/bin/flash/ -o doc/ -in com

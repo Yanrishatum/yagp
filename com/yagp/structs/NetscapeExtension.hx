@@ -1,8 +1,8 @@
 package com.yagp.structs ;
 
 /**
- * The Netscape2.0 extension. Used for looping gif animation;
- * @author Yanrishatum
+ * The Netscape2.0 extension. Used for looping gif animation;  
+ * It's a wrong definition. There is 2 types of NETSCAPE2.0 extension.
  */
 class NetscapeExtension
 {

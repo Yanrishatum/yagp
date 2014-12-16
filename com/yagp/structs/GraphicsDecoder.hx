@@ -9,7 +9,6 @@ typedef PixelType = Int; // Used _v2 OpenFL.
 
 /**
  * Graphics block decoder. LZW decompression.
- * @author Yanrishatum
  */
 class GraphicsDecoder
 {
@@ -54,7 +53,7 @@ class GraphicsDecoder
     
     var code:Int = 0;
     var last:Int = 0;
-    while (true)
+    while (i < pixels.length)
     {
       last = code;
       code = readCode(codeSize, codeMask);
@@ -75,7 +74,6 @@ class GraphicsDecoder
           var newArr:Array<PixelType> = dict[last].copy();
           newArr.push(dict[code][0]);
           dict.push(newArr);
-          
         }
       }
       else

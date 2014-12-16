@@ -32,7 +32,7 @@
     <option noInlineOnDebug="False" />
     <option mainClass="ApplicationMain" />
     <option enabledebug="True" />
-    <option additional="--remap flash:flash&#xA;-debug " />
+    <option additional="--macro include('com.yagp')&#xA;--remap flash:flash&#xA;-debug " />
   </build>
   <!-- haxelib libraries -->
   <haxelib>

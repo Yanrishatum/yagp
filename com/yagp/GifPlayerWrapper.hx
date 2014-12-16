@@ -25,7 +25,6 @@ import openfl.events.Event;
 
 /**
  * Fast and dirty Bitmap wrapper for GifPlayer
- * @author Yanrishatum
  */
 class GifPlayerWrapper extends Bitmap
 {
@@ -128,14 +127,15 @@ class GifPlayerWrapper extends Bitmap
     }
     else super();
     addEventListener(Event.ENTER_FRAME, onEnterFrame);
+    addEventListener(Event.ADDED_TO_STAGE, resetTimer);
   }
   
   /**
-   * Disposes wrapper.
+   * Disposes wrapper.  
    * Note: You can't use this wrapper anymore, if you used dispose() method!
-   * @param disposePlayer Dispose assigned GifPlayer too?
+   * @param disposePlayer Dispose assigned GifPlayer too?  
    * Default: true
-   * @param disposeGif Dispose assigned to GifPlayer Gif file?
+   * @param disposeGif Dispose assigned to GifPlayer Gif file?  
    * Default: false
    */
   public function dispose(disposePlayer:Bool = true, disposeGif:Bool = false):Void
@@ -147,11 +147,26 @@ class GifPlayerWrapper extends Bitmap
       bitmapData = null;
     }
     removeEventListener(Event.ENTER_FRAME, onEnterFrame);
+    removeEventListener(Event.ADDED_TO_STAGE, resetTimer);
+  }
+  
+  /**
+   * Resets player state. Use it foor reset loop counter.
+   * @param play If set to true, will force `playing` value to true.
+   */
+  public function reset(play:Bool = false):Void
+  {
+    if (_player != null) _player.reset(play);
+  }
+  
+  private function resetTimer(e:Event):Void
+  {
+    _t = Timer.stamp();
   }
   
   private function onEnterFrame(e:Event):Void 
   {
-    if (_player == null) return;
+    if (_player == null || stage == null) return;
     var stamp:Float = Timer.stamp();
     _player.update((stamp - _t) * timescale * globalTimescale);
     _t = stamp;

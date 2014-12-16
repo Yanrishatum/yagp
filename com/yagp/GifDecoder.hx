@@ -29,23 +29,33 @@ import com.yagp.structs.GraphicsDecoder;
 import com.yagp.structs.ImageDescriptor;
 import com.yagp.structs.LSD;
 import com.yagp.structs.NetscapeExtension;
+import openfl.display.Shape;
+import openfl.events.Event;
+import openfl.Lib;
 import openfl.utils.ByteArray;
+
+
+#if neko
+typedef Thread = neko.vm.Thread;
+#elseif cpp
+typedef Thread = cpp.vm.Thread;
+#end
 
 /**
  * The GIF reader
+ * 
  * How to use:
- * var gif:GIF = GifDecoder.readGIF(inputGifFile);
- * @author Yanrishatum
+ * 
+ * `var gif:Gif = GifDecoder.parseBytes(inputGifFile);`
  */
 class GifDecoder
 {
-  // YAGP: Async parsing (at least for sys platforms).
   // YAGP: Optimize overall program.
   
   /**
-   * Decodes GIF file from ByteArray and return ready GIF class
+   * Decodes Gif file from Bytes data stream.
    * @param bytes Input file data stream.
-   * @return GIF file.
+   * @return Decoded Gif file.
    */
   public static function parseBytes(bytes:Bytes):Gif
   {
@@ -55,6 +65,13 @@ class GifDecoder
     return decoder.gif;
   }
   
+  /**
+   * Decodes Gif file from ByteArray data stream.
+   * 
+   * Note: It just converts ByteArray to Bytes (until haxe 3.2 it'll be slow on HTML5 target!)
+   * @param byteArray Input data stream.
+   * @return Decoded Gif file.
+   */
   public static inline function parseByteArray(byteArray:ByteArray):Gif
   {
     #if flash
@@ -75,10 +92,115 @@ class GifDecoder
     #end
   }
   
+  /**
+   * Decodes Gif file from String.
+   * @param text Input String data.
+   * @return Decoded Gif file.
+   */
   public static inline function parseText(text:String):Gif
   {
     return parseBytes(Bytes.ofString(text));
   }
+  
+  /**
+   * Decodes Gif file from Bytes data stream asynchonously
+   * 
+   * Note: Supported only neko and cpp targets!
+   * @param bytes Input data stream.
+   * @param completeHandler Callback to which send decoded Gif file.
+   * @param errorHandler Callback to which send reports about occured error while decoding Gif file.
+   * @return true, if async decoding started successfully, false othervise.
+   */
+  public static function parseBytesAsync(bytes:Bytes, completeHandler:Gif->Void, errorHandler:Dynamic->Void):Bool
+  {
+    #if (neko || cpp)
+    var gifBytes:GifBytes = new GifBytes(bytes);
+    var decoder:GifDecoder = new GifDecoder(gifBytes);
+    return decoder.decodeAsync(completeHandler, errorHandler);
+    #else
+    trace("Asynchronous parsing currently only supported on neko and cpp platforms.");
+    return false;
+    #end
+  }
+  
+  /**
+   * Decodes Gif file from ByteArray data stream asynchonously
+   * 
+   * Note: Supported only neko and cpp targets!
+   * @param byteArray Input data stream.
+   * @param completeHandler Callback to which send decoded Gif file.
+   * @param errorHandler Callback to which send reports about occured error while decoding Gif file.
+   * @return true, if async decoding started successfully, false othervise.
+   */
+  public static inline function parseByteArrayAsync(byteArray:ByteArray, completeHandler:Gif->Void, errorHandler:Dynamic->Void):Bool
+  {
+    #if (neko || cpp)
+    return parseBytesAsync(byteArray, completeHandler, errorHandler);
+    #else
+    trace("Asynchronous parsing currently only supported on neko and cpp platforms.");
+    return false;
+    #end
+  }
+  
+  /**
+   * Decodes Gif file from String asynchonously
+   * 
+   * Note: Supported only neko and cpp targets!
+   * @param text Input String data.
+   * @param completeHandler Callback to which send decoded Gif file.
+   * @param errorHandler Callback to which send reports about occured error while decoding Gif file.
+   * @return true, if async decoding started successfully, false othervise.
+   */
+  public static inline function parseTextAsync(text:String, completeHandler:Gif->Void, errorHandler:Dynamic->Void):Bool
+  {
+    #if (neko || cpp)
+    return parseBytesAsync(Bytes.ofString(text), completeHandler, errorHandler);
+    #else
+    trace("Asynchronous parsing currently only supported on neko and cpp platforms.");
+    return false;
+    #end
+  }
+  
+  #if (neko || cpp)
+  private static var _asyncDecoders:Array<GifDecoder>;
+  private static var _asyncDecoderChecker:Shape; // DisplayObject;
+  
+  private static function init():Void
+  {
+    _asyncDecoders = new Array();
+    _asyncDecoderChecker = new Shape();
+    _asyncDecoderChecker.addEventListener(Event.ENTER_FRAME, checkAsyncDecoders);
+    _asyncDecoderChecker.visible = false;
+    Lib.current.stage.addChild(_asyncDecoderChecker); // Assumption, that DisplayObject receives EnterFrame event even if it not in display list is incorrect.
+  }
+  
+  private static function checkAsyncDecoders(e:Event):Void
+  {
+    var i:Int = 0;
+    while (i < _asyncDecoders.length)
+    {
+      var dec:GifDecoder = _asyncDecoders[i];
+      if (dec._done)
+      {
+        if (dec._completeHandler != null) dec._completeHandler(dec.gif);
+        dec._completeHandler = null;
+        dec._errorHandler = null;
+        _asyncDecoders.remove(dec);
+        continue;
+      }
+      else if (dec._error)
+      {
+        if (dec._errorHandler != null) dec._errorHandler(dec._errorMessage);
+        dec._completeHandler = null;
+        dec._errorHandler = null;
+        _asyncDecoders.remove(dec);
+        continue;
+      }
+      i++;
+    }
+  }
+  
+  #end
   
   /**
    * Output GIF file with all data and frames
@@ -87,21 +209,77 @@ class GifDecoder
   // Input stream
   private var _input:GifBytes;
   
+  /** Input data stream */
+  public var input(get, set):GifBytes;
+  private inline function get_input():GifBytes { return _input; }
+  private inline function set_input(v:GifBytes):GifBytes { return _input = v; }
+  
   // Temporary data
   private var _graphicControlExtension:GraphicsControl;
   private var _globalColorTable:Array<Int>;
   
-  private function new(input:GifBytes = null) 
+  // Async
+  #if (neko || cpp)
+  private var _completeHandler:Gif->Void;
+  private var _errorHandler:Dynamic->Void;
+  private var _done:Bool;
+  private var _error:Bool;
+  private var _errorMessage:Dynamic;
+  #end
+  
+  public function new(input:GifBytes = null) 
   {
     this._input = input;
   }
   
   /**
-   * Read GIF file in one stream.
-   * @param input Input file stream
+   * Start asynchronous decoding of input data stream.
+   * @param completeHandler Callback to which send decoded Gif file.
+   * @param errorHandler Callback to which send reports about occured error while decoding Gif file.
+   * @return true, if async decoding started successfully, false othervise.
    */
-  public function decodeGif():Void
+  public function decodeAsync(completeHandler:Gif->Void, errorHandler:Dynamic->Void):Bool
   {
+    #if (neko || cpp)
+    if (_input == null) return false;
+    if (_asyncDecoders == null) init();
+    this._done = false;
+    this._error = false;
+    this._completeHandler = completeHandler;
+    this._errorHandler = errorHandler;
+    _asyncDecoders.push(this);
+    Thread.create(_decodeAsync);
+    return true;
+    #else
+    trace("Asynchronous parsing currently only supported on neko and cpp platforms.");
+    return false;
+    #end
+  }
+  
+  private function _decodeAsync():Void
+  {
+    #if (neko || cpp)
+    try
+    {
+      decodeGif();
+      this._done = true;
+    }
+    catch (e:Dynamic)
+    {
+      this._error = true;
+      this._errorMessage = e;
+    }
+    #end
+  }
+  
+  
+  /**
+   * Decodes Gif file.
+   */
+  public function decodeGif():Gif
+  {
+    if (_input == null) return null;
+    _input.position = 0;
     // Init GIF
     this.gif = new Gif();
     
@@ -120,11 +298,15 @@ class GifDecoder
       }
       
       readBlock();
+      _graphicControlExtension = null;
+      _globalColorTable = null;
+      _input = null;
     }
     else
     {
       throw "This is not a GIF file, or header invalid.";
     }
+    return this.gif;
   }
   
   private function readBlock():Void
@@ -167,13 +349,11 @@ class GifDecoder
       // Text block extension
       case 0x01: 
         // Skip text block
-        // YAGP: Read text blocks
         skipBlock();
       
       // Comment block extension
       case 0xFE: 
         // Skip comment block
-        // YAGP: Read comment blocks
         skipBlock();
       */
       // Program extension block
@@ -234,6 +414,7 @@ class GifDecoder
     
     // Make new GifFrame
     var gifFrame:GifFrame = new GifFrame(table, imageDescriptor, decoder, _graphicControlExtension);
+    
     gif.frames.push(gifFrame);
     
     // And clear

@@ -12,6 +12,7 @@ import sys.io.File;
  * ...
  * @author Yanrishatum
  */
+@:dox(hide)
 class EncoderTest extends Sprite
 {
 

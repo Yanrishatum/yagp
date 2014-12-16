@@ -26,8 +26,7 @@ import openfl.geom.Point;
 import openfl.geom.Rectangle;
 
 /**
- * Fast and dirty implementation of gif player
- * @author Yanrishatum
+ * Fast and dirty implementation of gif player. Can contain bugs, not optimized.
  */
 class GifPlayer
 {
@@ -41,7 +40,7 @@ class GifPlayer
   }
 
   /**
-   * Player's rendering BitmapData
+   * Player's output BitmapData representing current state of player.
    */
   public var data(default, null):BitmapData;
   private var _gif:Gif;
@@ -232,6 +231,7 @@ class GifPlayer
   
   /**
    * Disposes the player.
+   * 
    * Note: You can't use this GifPlayer anymore, if you used dispose() method.
    * @param disposeGif Dispose Gif file too?
    */
@@ -253,12 +253,16 @@ class GifPlayer
     }
   }
   
+  /**
+   * Resets player state. Use it foor reset loop counter.
+   * @param play If set to true, will force `playing` value to true.
+   */
   public function reset(play:Bool = false):Void
   {
     if (_gif == null) return;
     this._loops = 0;
     this._t = 0;
-    this.playing = play;
+    if (play) this.playing = true;
     if (_prevData != null)
     {
       _prevData.dispose();

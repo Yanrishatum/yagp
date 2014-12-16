@@ -8,8 +8,8 @@ Parsing test:
   YAGP: PASS
   haxe-gif: PASS
 Speed test:
-  YAGP: 0.14700000000000002
-  haxe-gif: 0.20099999999999996
+  YAGP: 0.124
+  haxe-gif: 0.19799999999999995
   Faster library: YAGP
 
 Path: img/zero-frame-duration.gif
@@ -20,8 +20,8 @@ Parsing test:
   YAGP: PASS
   haxe-gif: PASS
 Speed test:
-  YAGP: 0.07800000000000007
-  haxe-gif: 0.04299999999999993
+  YAGP: 0.05699999999999994
+  haxe-gif: 0.040000000000000036
   Faster library: haxe-gif
 
 Path: img/restore-previous.gif
@@ -32,8 +32,8 @@ Parsing test:
   YAGP: PASS
   haxe-gif: FAIL: InvalidFormat
 Speed test:
-  YAGP: 0.016999999999999904
-  haxe-gif: 0.01399999999999979
+  YAGP: 0.01100000000000012
+  haxe-gif: 0.0129999999999999
   Faster library: YAGP (haxe-gif parsing error)
 
 Path: img/nontransparent.gif
@@ -44,8 +44,8 @@ Parsing test:
   YAGP: PASS
   haxe-gif: PASS
 Speed test:
-  YAGP: 0.11100000000000021
-  haxe-gif: 0.11699999999999999
+  YAGP: 0.07299999999999951
+  haxe-gif: 0.11500000000000021
   Faster library: YAGP
 
 Path: img/nontransparent-iirc.gif
@@ -56,8 +56,8 @@ Parsing test:
   YAGP: PASS
   haxe-gif: PASS
 Speed test:
-  YAGP: 0.16199999999999992
-  haxe-gif: 0.11400000000000032
+  YAGP: 0.1349999999999998
+  haxe-gif: 0.11099999999999977
   Faster library: haxe-gif
 
 Path: img/nontransparent-palettes.gif
@@ -68,9 +68,9 @@ Parsing test:
   YAGP: PASS
   haxe-gif: PASS
 Speed test:
-  YAGP: 1.4210000000000003
-  haxe-gif: 1.3419999999999996
-  Faster library: haxe-gif
+  YAGP: 1.0210000000000008
+  haxe-gif: 1.3129999999999988
+  Faster library: YAGP
 
 Path: img/framechanges.gif
 Notes: Image has big size. Individual size of the frames. Unusual encoder.
@@ -80,8 +80,8 @@ Parsing test:
   YAGP: PASS
   haxe-gif: FAIL: InvalidFormat
 Speed test:
-  YAGP: 1.5630000000000006
-  haxe-gif: 0.7690000000000001
+  YAGP: 1.2270000000000003
+  haxe-gif: 0.7319999999999993
   Faster library: YAGP (haxe-gif parsing error)
 
 Path: img/Fighter_attack.gif
@@ -92,18 +92,30 @@ Parsing test:
   YAGP: PASS
   haxe-gif: PASS
 Speed test:
-  YAGP: 0.10599999999999987
-  haxe-gif: 0.11399999999999899
-  Faster library: YAGP
+  YAGP: 0.08299999999999841
+  haxe-gif: 0.06500000000000128
+  Faster library: haxe-gif
+
+Path: img/optimized.gif
+Notes: Encoder: ImageOptim 1.3.3. Not animated
+Version: 87a
+Frame amount: 1
+Parsing test:
+  YAGP: PASS
+  haxe-gif: FAIL: UnsupportedFormat
+Speed test:
+  YAGP: 0.08799999999999741
+  haxe-gif: 0
+  Faster library: YAGP (haxe-gif parsing error)
 
 Path: img/framechanges-2.gif
 Notes: Image has VERY big size and extreme amount of frames. Individual size of the frames. Unusual encoder.
 Version: 89a
 Frame amount: 555
 Parsing test:
-  YAGP: FAIL: Error: Error #1502: A script has executed for longer than the default timeout period of 15 seconds.
+  YAGP: PASS
   haxe-gif: FAIL: InvalidFormat
 Speed test:
-  YAGP: 16.479
-  haxe-gif: 2.073999999999998
-  Faster library: none
+  YAGP: 3.4570000000000007
+  haxe-gif: 1.3549999999999969
+  Faster library: YAGP (haxe-gif parsing error)

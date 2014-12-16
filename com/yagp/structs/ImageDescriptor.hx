@@ -2,7 +2,6 @@ package com.yagp.structs ;
 
 /**
  * Image descriptor block in GIF file
- * @author Yanrishatum
  */
 class ImageDescriptor
 {
@@ -48,7 +47,7 @@ class ImageDescriptor
   
   /**
    * Constructor
-   * @param bytes Input gif file stream
+   * @param input Input gif file stream
    */
   public function new(input:GifBytes) 
   {
