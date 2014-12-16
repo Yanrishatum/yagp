@@ -54,13 +54,13 @@ var spritemap:GifMap = GifRenderer.createMap(gif);
 * Android: Not tested for speed and produces an warning messages, but works as reported in [#2](http://github.com/Yanrishatum/yagp/issues/2).
 
 #### Possible future updates
-- [ ] Asynchronous parsing.
 - [x] HTML5 target support.
+- [ ] Independence from OpenFL.
+- [ ] Macro pre-compile parsing and embedding.
+- [ ] On-Demand parsing (e.g. not parse entire file once, but parse next frames when it's required)
+- [ ][x] Asynchronous parsing. (Partially done, right now only neko/cpp targets)
 - [ ] Custom Extension/Application Extension support.
 - [ ] Plain Text Extension support.
-- [ ] Macro pre-compile parsing and embedding.
-- [ ] Independence from OpenFL.
-- [ ] On-Demand parsing (e.g. not parse entire file once, but parse next frames when it's required)
 
 ## Licension
 This work is licensed under MIT license.
