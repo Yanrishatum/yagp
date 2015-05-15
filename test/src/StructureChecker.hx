@@ -88,7 +88,7 @@ class StructureChecker
     #elseif js
     
     #if (haxe_ver >= 3.2)
-    _input = new GifBytes(Bytes.ofData(byteArray.byteView)); // In newest 3.2 haxe Uint8Array is BytesData
+    _input = new GifBytes(Bytes.ofData(input.byteView.buffer)); // In newest 3.2 haxe Uint8Array is BytesData
     #else
     var bytes:Bytes = Bytes.alloc(input.length);
     input.position = 0;

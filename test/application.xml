@@ -19,7 +19,7 @@
   <source path=".."/>
 	<haxelib name="openfl" />
 	<haxelib name="actuate" />
-  <haxelib name="haxe-gif"/>
+  <haxelib name="haxe-gif"/> 
   <haxelib name="hxColorToolkit"/>
   
 	<!-- assets -->

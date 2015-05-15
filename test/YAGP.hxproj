@@ -16,18 +16,18 @@
   </output>
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
-    <class path="S:\HaxeToolkit\haxe\lib\openfl\2,1,6" />
-    <class path="S:\HaxeToolkit\haxe\lib\lime\2,0,0" />
-    <class path="S:\HaxeToolkit\haxe\lib\actuate\1,7,5" />
-    <class path="S:\HaxeToolkit\haxe\lib\haxe-gif\0,3,3" />
-    <class path="S:\HaxeToolkit\haxe\lib\hxColorToolkit\1,6,0" />
+    <class path="E:\HaxeToolkit\haxe\lib\openfl\openfl" />
+    <class path="E:\HaxeToolkit\haxe\lib\lime\lime" />
+    <class path="E:\HaxeToolkit\haxe\lib\actuate\1,8,3" />
+    <class path="E:\HaxeToolkit\haxe\lib\haxe-gif\0,3,3" />
+    <class path="E:\HaxeToolkit\haxe\lib\hxColorToolkit\1,6,0" />
     <class path="src" />
     <class path=".." />
     <class path="bin\html5\haxe" />
   </classpaths>
   <!-- Build options -->
   <build>
-    <option directives="openfl=2.1.6&#xA;lime=2.0.0&#xA;actuate=1.7.5&#xA;haxe-gif=0.3.3&#xA;hxColorToolkit=1.6.0&#xA;tools=2.0.0&#xA;no-compilation&#xA;lime-html5&#xA;bitfive&#xA;html5&#xA;web&#xA;html5&#xA;html" />
+    <option directives="openfl=3.0.3&#xA;lime=2.3.3&#xA;actuate=1.8.3&#xA;haxe-gif=0.3.3&#xA;hxColorToolkit=1.6.0&#xA;openfl-next&#xA;tools=2.3.3&#xA;no-compilation&#xA;lime-html5&#xA;bitfive&#xA;html5&#xA;web&#xA;html5&#xA;html" />
     <option flashStrict="False" />
     <option noInlineOnDebug="False" />
     <option mainClass="ApplicationMain" />

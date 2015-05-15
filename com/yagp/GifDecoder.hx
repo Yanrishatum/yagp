@@ -79,7 +79,7 @@ class GifDecoder
     #elseif js
     
     #if (haxe_ver >= 3.2)
-    return parseBytes(Bytes.ofData(byteArray.byteView)); // In newest 3.2 haxe Uint8Array is BytesData
+    return parseBytes(Bytes.ofData(byteArray.byteView.buffer)); // In newest 3.2 haxe Uint8Array is BytesData
     #else
     var bytes:Bytes = Bytes.alloc(byteArray.length);
     byteArray.position = 0;

@@ -133,7 +133,7 @@ class Main extends Sprite
     #elseif js
     
     #if (haxe_ver >= 3.2)
-    var hbytes:Bytes = Bytes.ofData(bytes.byteView); // In newest 3.2 haxe Uint8Array is BytesData
+    var hbytes:Bytes = Bytes.ofData(bytes.byteView.buffer); // In newest 3.2 haxe Uint8Array is BytesData
     #else
     var hbytes:Bytes = Bytes.alloc(bytes.length);
     bytes.position = 0;
